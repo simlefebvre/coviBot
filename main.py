@@ -4,7 +4,7 @@ Created on Wed May 19 21:07:51 2021
 
 @author: simon
 """
-
+import random
 import discord
 import requests
 
@@ -43,11 +43,26 @@ async def on_message(message):
                     if cren['total'] != 0 :
                         test = False
                         await message.channel.send(centre['url'])
+        if test:
             await message.channel.send("Aucun centre de vaccination ne possède des créneaux ouverts à tous disponibles dans le département choisi")
+            test = True
+    elif label == ":vac?":
+        vac = mot()
+        await message.channel.send(vac)
     elif label == ":help":
-        await message.channel.send("tapper \": vac numéro_du_departement\" pour obtenir le nombre de doses disponibles dans le département.")
-        await message.channel.send("tapper \": centre numéro_du_departement\" pour obtenir les URL des centres réservables.")
+        await message.channel.send("tapper \":vac numéro_du_departement\" pour obtenir le nombre de doses disponibles dans le département.")
+        await message.channel.send("tapper \":centre numéro_du_departement\" pour obtenir les URL des centres réservables.")
 
+def mot():
+    try:
+        file = open("vac.txt","r")
+        chaine = file.read()
+        motL = chaine.split()
+        index = random.randint(0,len(motL)-1)
+        return motL[index]
+    except:
+        return ""
+        
 def get_token():
     try:
         file = open("token.txt", "r")
